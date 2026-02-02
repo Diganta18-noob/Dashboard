@@ -26,21 +26,27 @@ const Sidebar = ({ collapsed, onToggle }) => {
                 }`}
         >
             {/* Logo Section */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-100">
-                <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-primary-500 rounded-xl flex items-center justify-center">
-                        <span className="text-white font-bold text-lg">A</span>
-                    </div>
-                    {!collapsed && (
-                        <div>
-                            <h1 className="font-bold text-gray-800 text-lg">AttendEase</h1>
-                            <p className="text-xs text-gray-500">Classroom Management</p>
+            <div className={`flex items-center p-4 border-b border-gray-100 ${collapsed ? 'justify-center' : 'justify-between'}`}>
+                {collapsed ? (
+                    <IconButton size="small" onClick={onToggle} className="text-gray-500">
+                        <MenuIcon />
+                    </IconButton>
+                ) : (
+                    <>
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 bg-primary-500 rounded-xl flex items-center justify-center">
+                                <span className="text-white font-bold text-lg">A</span>
+                            </div>
+                            <div>
+                                <h1 className="font-bold text-gray-800 text-lg">AttendEase</h1>
+                                <p className="text-xs text-gray-500">Classroom Management</p>
+                            </div>
                         </div>
-                    )}
-                </div>
-                <IconButton size="small" onClick={onToggle} className="text-gray-500">
-                    {collapsed ? <MenuIcon /> : <ChevronLeftIcon />}
-                </IconButton>
+                        <IconButton size="small" onClick={onToggle} className="text-gray-500">
+                            <ChevronLeftIcon />
+                        </IconButton>
+                    </>
+                )}
             </div>
 
             {/* Navigation */}

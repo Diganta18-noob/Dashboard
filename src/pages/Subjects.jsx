@@ -31,7 +31,11 @@ const Subjects = () => {
 
     const columns = [
         { field: 'name', headerName: 'Subject Name' },
-        { field: 'code', headerName: 'Code' },
+        {
+            field: 'code',
+            headerName: 'Code',
+            renderCell: (row) => <span className="lowercase">{row.code?.toLowerCase()}</span>
+        },
         {
             field: 'type',
             headerName: 'Type',

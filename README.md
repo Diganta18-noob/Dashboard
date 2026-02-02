@@ -5,7 +5,7 @@ A modern admin dashboard for the AttendEase Classroom Management System built wi
 ## Features
 
 - 📊 **Dashboard** - Overview with stats cards, recent activity, and system status
-- 🏫 **Departments** - Manage training departments (MERN, MEAN, Java FS, SDET)
+- 🏫 **Departments** - Manage training departments with auto-generated codes
 - 📚 **Subjects** - Course management with type and quarter fields
 - 👨‍🎓 **Students** - Student directory with CSV bulk import
 - 👨‍🏫 **Teachers** - Faculty management
@@ -43,31 +43,6 @@ The app will be available at `http://localhost:5173/`
 ```bash
 npm run build
 npm run preview
-```
-
-## Project Structure
-
-```
-src/
-├── components/
-│   ├── layout/
-│   │   ├── Sidebar.jsx
-│   │   └── MainLayout.jsx
-│   └── ui/
-│       ├── StatsCard.jsx
-│       └── DataTable.jsx
-├── context/
-│   └── DataContext.jsx
-├── pages/
-│   ├── Login.jsx
-│   ├── Dashboard.jsx
-│   ├── Students.jsx
-│   ├── Departments.jsx
-│   ├── Subjects.jsx
-│   └── Teachers.jsx
-├── App.jsx
-├── main.jsx
-└── index.css
 ```
 
 ## Demo Data

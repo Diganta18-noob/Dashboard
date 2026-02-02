@@ -11,6 +11,7 @@ import {
     IconButton,
     MenuItem,
     Chip,
+    Avatar,
 } from '@mui/material'
 import { Add as AddIcon, Close as CloseIcon } from '@mui/icons-material'
 import DataTable from '../components/ui/DataTable'
@@ -28,8 +29,32 @@ const Teachers = () => {
         password: '',
     })
 
+    // Get initials from name
+    const getInitials = (name) => {
+        if (!name) return ''
+        const words = name.split(' ')
+        if (words.length >= 2) {
+            return (words[0][0] + words[1][0]).toUpperCase()
+        }
+        return name.substring(0, 2).toUpperCase()
+    }
+
     const columns = [
-        { field: 'name', headerName: 'Name' },
+        {
+            field: 'name',
+            headerName: 'Name',
+            renderCell: (row) => (
+                <div className="flex items-center gap-3">
+                    <Avatar
+                        sx={{ width: 32, height: 32, fontSize: 12 }}
+                        className="bg-primary-100 text-primary-700"
+                    >
+                        {getInitials(row.name)}
+                    </Avatar>
+                    <span>{row.name}</span>
+                </div>
+            ),
+        },
         { field: 'email', headerName: 'Email' },
         { field: 'department', headerName: 'Department' },
         {

@@ -3,18 +3,18 @@ import { createContext, useContext, useState, useEffect } from 'react'
 // Initial demo data
 const initialData = {
     departments: [
-        { id: 1, name: 'MERN Stack', code: 'MERN', students: 45 },
-        { id: 2, name: 'MEAN Stack', code: 'MEAN', students: 32 },
-        { id: 3, name: 'Java Full Stack', code: 'JAVA_FS', students: 28 },
-        { id: 4, name: 'SDET Java', code: 'SDET_JAVA', students: 15 },
-        { id: 5, name: 'SDET Python', code: 'SDET_PYTHON', students: 20 },
+        { id: 1, name: 'MERN DEC BATCH 01', code: 'mern1dec25', students: 45 },
+        { id: 2, name: 'MERN JAN BATCH 02', code: 'mern2jan26', students: 32 },
+        { id: 3, name: 'MEAN FEB BATCH 01', code: 'mean1feb26', students: 28 },
+        { id: 4, name: 'JAVA FS MAR BATCH 01', code: 'java1mar26', students: 15 },
+        { id: 5, name: 'SDET APR BATCH 01', code: 'sdet1apr26', students: 20 },
     ],
     subjects: [
-        { id: 1, name: 'React Fundamentals', code: 'REACT101', type: 'Theory', quarter: 'Q1', department: 'MERN', credits: 3 },
-        { id: 2, name: 'Node.js Backend', code: 'NODE101', type: 'Practical', quarter: 'Q2', department: 'MERN', credits: 4 },
-        { id: 3, name: 'MongoDB Database', code: 'MONGO101', type: 'Theory', quarter: 'Q1', department: 'MERN', credits: 3 },
-        { id: 4, name: 'Angular Basics', code: 'ANG101', type: 'Theory', quarter: 'Q1', department: 'MEAN', credits: 3 },
-        { id: 5, name: 'Java Spring Boot', code: 'SPRING101', type: 'Practical', quarter: 'Q2', department: 'JAVA_FS', credits: 4 },
+        { id: 1, name: 'MERN DEC BATCH 01', code: 'mern1dec25', type: 'Practical', quarter: 'Q1', department: 'mern1dec25', credits: 1 },
+        { id: 2, name: 'MERN JAN BATCH 02', code: 'mern2jan26', type: 'Theory', quarter: 'Q1', department: 'mern2jan26', credits: 2 },
+        { id: 3, name: 'MEAN FEB BATCH 01', code: 'mean1feb26', type: 'Practical', quarter: 'Q2', department: 'mean1feb26', credits: 1 },
+        { id: 4, name: 'JAVA FS MAR BATCH 01', code: 'java1mar26', type: 'Theory', quarter: 'Q1', department: 'java1mar26', credits: 3 },
+        { id: 5, name: 'SDET APR BATCH 01', code: 'sdet1apr26', type: 'Practical', quarter: 'Q2', department: 'sdet1apr26', credits: 2 },
     ],
     students: [
         { id: 1, name: 'John Doe', email: 'john@example.com', department: 'MERN', rollNumber: 'MERN2024001' },
@@ -43,9 +43,9 @@ export const useData = () => {
 
 export const DataProvider = ({ children }) => {
     const [data, setData] = useState(() => {
-        // Load from localStorage or use initial data
-        const saved = localStorage.getItem('attendease_data')
-        return saved ? JSON.parse(saved) : initialData
+        // Clear old data and use fresh initial data
+        localStorage.removeItem('attendease_data')
+        return initialData
     })
 
     // Save to localStorage whenever data changes

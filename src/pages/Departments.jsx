@@ -10,6 +10,7 @@ import {
     TextField,
     IconButton,
     Chip,
+    MenuItem,
 } from '@mui/material'
 import { Add as AddIcon, Close as CloseIcon } from '@mui/icons-material'
 import DataTable from '../components/ui/DataTable'
@@ -21,12 +22,31 @@ const Departments = () => {
     const [editingId, setEditingId] = useState(null)
     const [formData, setFormData] = useState({
         name: '',
-        code: '',
+        startDate: '',
     })
+
+    // Generate unique code: DDMM_COURSENAME (e.g., 0202_MERN)
+    const generateCode = (name, startDate) => {
+        if (!startDate || !name) return ''
+        const date = new Date(startDate)
+        const day = String(date.getDate()).padStart(2, '0')
+        const month = String(date.getMonth() + 1).padStart(2, '0')
+        // Extract course abbreviation from name (first word or acronym)
+        const courseCode = name.split(' ')[0].toUpperCase().replace(/[^A-Z]/g, '')
+        return `${day}${month}_${courseCode}`
+    }
 
     const columns = [
         { field: 'name', headerName: 'Department Name' },
-        { field: 'code', headerName: 'Code' },
+        {
+            field: 'code',
+            headerName: 'Code',
+            renderCell: (row) => (
+                <span className="font-mono text-gray-700 lowercase">
+                    {row.code?.toLowerCase()}
+                </span>
+            ),
+        },
         {
             field: 'students',
             headerName: 'Students',
@@ -46,27 +66,34 @@ const Departments = () => {
 
     const handleOpenAdd = () => {
         setEditingId(null)
-        setFormData({ name: '', code: '' })
+        setFormData({ name: '', startDate: '' })
         setOpenModal(true)
     }
 
     const handleEdit = (row) => {
         setEditingId(row.id)
-        setFormData({ name: row.name, code: row.code })
+        setFormData({ name: row.name, startDate: row.startDate || '' })
         setOpenModal(true)
     }
 
     const handleClose = () => {
         setOpenModal(false)
         setEditingId(null)
-        setFormData({ name: '', code: '' })
+        setFormData({ name: '', startDate: '' })
     }
 
     const handleSubmit = () => {
+        const code = generateCode(formData.name, formData.startDate)
+        const submitData = {
+            name: formData.name,
+            code: code,
+            startDate: formData.startDate,
+        }
+
         if (editingId) {
-            updateItem('departments', editingId, formData)
+            updateItem('departments', editingId, submitData)
         } else {
-            addItem('departments', { ...formData, students: 0 })
+            addItem('departments', { ...submitData, students: 0 })
         }
         handleClose()
     }
@@ -76,6 +103,9 @@ const Departments = () => {
             deleteItem('departments', row.id)
         }
     }
+
+    // Preview the generated code
+    const previewCode = generateCode(formData.name, formData.startDate)
 
     return (
         <div className="space-y-6">
@@ -150,12 +180,28 @@ const Departments = () => {
                         />
                         <TextField
                             fullWidth
-                            name="code"
-                            label="Department Code"
-                            placeholder="e.g. MERN"
-                            value={formData.code}
+                            name="startDate"
+                            label="Start Date"
+                            type="date"
+                            value={formData.startDate}
                             onChange={handleChange}
+                            InputLabelProps={{ shrink: true }}
                         />
+
+                        {/* Code Preview */}
+                        {previewCode && (
+                            <div className="p-4 bg-gray-50 rounded-xl">
+                                <Typography variant="body2" className="text-gray-500 mb-1">
+                                    Generated Code:
+                                </Typography>
+                                <Typography variant="h6" className="font-mono text-primary-600">
+                                    {previewCode}
+                                </Typography>
+                                <Typography variant="caption" className="text-gray-400">
+                                    Format: DDMM_COURSENAME
+                                </Typography>
+                            </div>
+                        )}
                     </div>
                 </DialogContent>
                 <DialogActions className="p-6 pt-0">
@@ -163,6 +209,7 @@ const Departments = () => {
                         fullWidth
                         variant="contained"
                         onClick={handleSubmit}
+                        disabled={!formData.name || !formData.startDate}
                         className="bg-primary-500 hover:bg-primary-600 py-3"
                     >
                         {editingId ? 'Update Department' : 'Create Department'}
